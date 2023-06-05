@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Edit reception</title>
+    <link rel="stylesheet" th:href="@{/webjars/bootstrap/5.3.0-alpha2/dist/css/bootstrap.css}">
+    <link th:rel="stylesheet" type="text/css" th:href="style.css">
+</head>
+<body>
+<div class="container">
+<div class="text-wrapper">
+    <h1>Редагування прийома</h1>
+</div>
+<div class="button-wrapper">
+<form action="update_reception" method="post">
+    <input type="hidden" name="id" th:value="${reception.id}">
+    <label for="tex" class="form-control-sm">Черга на прийом</label><br/>
+    <input type="number" th:value="${reception.turn}" id="tex" name="turn" class="form-control-sm"><br/>
+    <label for="tex" class="form-control-sm">Час прийома</label><br/>
+    <input type="number" th:value="${reception.time}" id="ttime" name="time" class="form-control-sm"><br/>
+    <label for="tname" class="form-control-sm">Ім'я</label><br/>
+    <input type="text" th:value="${reception.name}" id="tname" name="tname" class="form-control-sm"><br/>
+    <button type="submit" class="btn btn-outline-primary btn-sm">Оновити</button>
+</form>
+</div>
+</div>
+<script th:src="@{/webjars/jquery/3.6.4/dist/jquery.js}"></script>
+<script th:src="@{/webjars/popperjs__core/2.11.7/dist/umd/popper.js}"></script>
+<script th:src="@{/webjars/bootstrap/5.3.0-alpha2/dist/js/bootstrap.bundle.js}"></script>
+</body>
+</html>

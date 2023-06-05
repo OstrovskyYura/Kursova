@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Reception</title>
+    <link rel="stylesheet" th:href="@{/webjars/bootstrap/5.3.0-alpha2/dist/css/bootstrap.css}">
+    <link th:rel="stylesheet" type="text/css" th:href="style.css">
+</head>
+<body>
+<h1 th:text="|Прийом на медогляд|" class="text-center"></h1>
+<table class="table table-sm table-hover text-center">
+    <thead class="table-dark text-center table-sm">
+    <tr>
+        <th>Id</th>
+        <th>Черга на прийом</th>
+        <th>Час прийома</th>
+        <th>Ім'я</th>
+        <th>Лікар</th>
+        <th>Видалити</th>
+        <th>Редагувати</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="r : ${reception}">
+        <td th:text="${r.id}"></td>
+        <td th:text="${r.turn}"></td>
+        <td th:text="${r.time}"></td>
+        <td th:text="${r.name}"></td>
+        <td><a th:href="@{/reception_doctor(id=${r.id})}" class="btn btn-sm btn-outline-info">Лікар</a></td>
+        <td>
+            <a class="btn btn-sm btn-outline-danger" data-bs-toggle="modal" data-bs-target="#myconfirm"
+               th:attr="data-bs-link=@{/delete_reception(id=${r.id})}, data-bs-text=${r.name}, data-bs-id=${r.id}">Видалити</a>
+        </td>
+        <td><a th:href="@{/edit_reception(id=${r.id})}" class="btn btn-sm btn-outline-secondary">Редагувати</a></td>
+    </tr>
+    </tbody>
+</table>
+<div class="modal fade" id="myconfirm" data-bs-backdrop="static" data-bs-keyboard="false"
+     tabindex="-1" aria-labelledby="staticWarningLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="staticWarningLabel">Увага!</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                Ви впевнені, що хочете видалити пацієнта?<br/>
+                Якщо натиснути видалити, то цю дії <i>не можна скасувати</i>.
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Скасувати</button>
+                <a class="btn btn-danger delete-button">Видалити</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    var myConfirmModal = document.getElementById('myconfirm')
+    myConfirmModal.addEventListener('show.bs.modal', function (event) {
+        var button = event.relatedTarget
+        var link = button.getAttribute('data-bs-link')
+        var tid = button.getAttribute('data-bs-id')
+        var text = button.getAttribute('data-bs-text')
+        var modalTitle = myConfirmModal.querySelector('.modal-title')
+        modalTitle.textContent = 'Deleting reception: ' + text + ' (' + tid + ')'
+        var deleteButton = myConfirmModal.querySelector('.delete-button')
+        deleteButton.setAttribute("href", link)
+    })
+</script>
+<form action="add_reception" method="post">
+    <input type="number" placeholder="Turn" name="Черга на прийом" class="form-control-sm">
+    <input type="text" placeholder="Time" name="Час прийома" class="form-control-sm">
+    <input type="text" placeholder="Name" name="Ім'я" class="form-control-sm">
+    <button type="submit" class="btn btn-outline-primary btn-sm">Додати</button>
+</form>
+<script th:src="@{/webjars/jquery/3.6.4/dist/jquery.js}"></script>
+<script th:src="@{/webjars/popperjs__core/2.11.7/dist/umd/popper.js}"></script>
+<script th:src="@{/webjars/bootstrap/5.3.0-alpha2/dist/js/bootstrap.bundle.js}"></script>
+</body>
+</html>
